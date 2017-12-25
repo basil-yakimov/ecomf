@@ -1,3 +1,9 @@
+#' A function to compute local derivative
+#' @param vec vector
+#' @param h interval size
+#' @keywords derivative
+#' @example derv(vec = seq(0,5, by = 0.1)^ 2, h = 0.1)
+
 derv <- function(vec,h)
 {
   n <- length(vec)

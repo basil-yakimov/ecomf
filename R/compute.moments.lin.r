@@ -1,3 +1,9 @@
+#' A function to compute moments with a linear transect
+#' @param ab vector of abundances
+#' @param cv vector of coverages
+#' @param ht vector of heights
+#' @param q vector of orders
+
 compute.moments.lin <- function(ab, cv, ht, q)
 {
   ab <- as.matrix(ab)

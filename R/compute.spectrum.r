@@ -1,3 +1,6 @@
+#' A function to compute global multifractal spectrum
+#' @param mom moments object returned by compute.moments.lin()
+
 compute.spectrum <- function(mom)
 {
   n <- length(mom$a)

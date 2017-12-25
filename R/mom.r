@@ -1,3 +1,9 @@
+#' A function to compute moments
+#' @param p abundance vector
+#' @param q vector of orders
+#' @keywords moment
+#' @example mom(c(0.5, 0.3, 0.1, 0.1), 0:5)
+
 mom <- function(p, q)
 {
   p <- p[p > 0]

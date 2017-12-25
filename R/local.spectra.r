@@ -1,3 +1,8 @@
+#' A function to compute local multifractal spectra
+#' @param inp input object returned by compute.moments.lin()
+#' @param sc vector of sample scales
+#' @param smooth smoothing parameter
+
 local.spectra <- function(inp, sc = 0, smooth = 1)
 {
   if (exists("a", inp)) inp$A <- inp$a
