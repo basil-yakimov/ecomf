@@ -27,7 +27,7 @@ local.spectra <- function(inp, sc = 0, smooth = 1)
   for (jj in 1:length(q))
   {
     xx <- log(inp$A)
-    yy <- log(inp$mom[,jj])
+    yy <- log(inp$qD[,jj])
     
     fin <- is.finite(yy)
     
@@ -36,30 +36,15 @@ local.spectra <- function(inp, sc = 0, smooth = 1)
     der <- predict(spl, x = sc, deriv = 1)
     
     
-    tau[jj,] <- der$y
-    Dq[jj,] <- der$y/(1-q[jj])
+    Dq[jj,] <- der$y
+    tau[jj,] <- der$y*(1-q[jj])
   }
-  
-  if (sum(q == 1) > 0)
-  {
-    xx <- log(inp$A)
-    yy <- inp$H
-    
-    fin <- is.finite(yy)
-    
-    spl <- smooth.spline(x = xx[fin], y = yy[fin], spar = smooth, tol = .0001)
-    der <- predict(spl, x = sc, deriv = 1)
-    
-    Dq[q == 1,] <- der$y
-  }
-  
-  
+
   for (ii in 1:length(sc))
   {
     alfa[,ii] <- -derv(tau[,ii],.1)
     f[,ii] <- q*alfa[,ii] + tau[,ii]
   }
-  
-  
+
   return(list(a = sc, q = q, tau = tau, Dq = Dq, alfa = alfa, f = f))
 }
