@@ -4,16 +4,16 @@
 \alias{compute.moments.lin}
 \title{A function to compute moments with a linear transect}
 \usage{
-compute.moments.lin(ab, cv, ht, q)
+compute.moments.lin(ab, q)
 }
 \arguments{
 \item{ab}{vector of abundances}
 
+\item{q}{vector of orders}
+
 \item{cv}{vector of coverages}
 
 \item{ht}{vector of heights}
-
-\item{q}{vector of orders}
 }
 \description{
 A function to compute moments with a linear transect
