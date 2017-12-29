@@ -1,10 +1,12 @@
 Package: ecomf
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Multifractal analysis of ecological community structure
+Version: 0.0.0.9000
 Date: 2017-12-11
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Authors@R: person("Basil", "Yakimov", email = "damselfly@yandex.ru",
+  role = c("aut", "cre"))
+Description: Set of functions to perform multifrcatal analysis of
+    ecological community spatial structure including local multifrcatal
+    analysis version.
+License: GPL-2
 RoxygenNote: 6.0.1

@@ -1,4 +1,4 @@
-#' A function to truncate anomalous "horns" from multifrcatal spectra
+#' A function to truncate anomalous "horns" from multifractal spectra
 #' @param mf spectra object returned by local.spectra()
 
 trunc.spectra <- function(mf)
