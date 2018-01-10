@@ -13,7 +13,7 @@ compute.moments.lin <- function(ab, q)
   m <- qD <- matrix(0, nrow = nn, ncol = length(q))
   a <- rep(0, nn)
   H <- rep(0, nn)
-  pmin <- rep(0, nn)
+  pmin <- nmin <- rep(0, nn)
   
   counter <- 1
   for (ii in 1:(n-1))
@@ -33,8 +33,8 @@ compute.moments.lin <- function(ab, q)
         m[counter,] <- mom(p,q)
         a[counter] <- ii
         H[counter] <- shannon(p)
-        pmin[counter] <- min(p[p>0])
-        
+        pmin[counter] <- min(p[p > 0])
+        nmin[counter] <- min(aa[aa > 0])
         counter <- counter + 1
       }
     }
@@ -46,11 +46,12 @@ compute.moments.lin <- function(ab, q)
   m[counter,] <- mom(p,q)
   a[counter] <- n
   H[counter] <- shannon(p)
-  pmin[counter] <- min(p[p>0])
+  pmin[counter] <- min(p[p > 0])
+  nmin[counter] <- min(aa[aa > 0])
   
   qD <- m ^ (1/(1-matrix(q, nrow = dim(m)[1], ncol = dim(m)[2], byrow = T)))
   qD[, q == 1] <- exp(H)
   
   return(list(mom = m[1:counter,], H = H[1:counter], qD = qD[1:counter,], 
-              a = a[1:counter], q = q, pmin = pmin[1:counter]))
+              a = a[1:counter], q = q, pmin = pmin[1:counter], nmin = nmin[1:counter]))
 }
