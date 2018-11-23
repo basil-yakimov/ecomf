@@ -6,6 +6,7 @@
 local.spectra <- function(inp, sc = 0, w = 1, smooth = 1)
 {
   if (exists("a", inp)) inp$A <- inp$a
+  if (length(w) == 1) w <- rep(1, length(inp$a))
   
   q <- inp$q
   
