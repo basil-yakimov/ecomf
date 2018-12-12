@@ -37,11 +37,8 @@ plot.delta <- function(mf)
   points(mf$q[mf$delta < 0], mf$delta[mf$delta < 0], pch = 19, col = "red")
 }
 
-plot.spectra <- function(mfl, xlim = NA, ylim = NA, title = "")
+plot.spectra <- function(mfl, xlim = range(0, mfl$alfa, 1), ylim = range(0, mfl$f), title = "")
 {
-  if (sum(is.na(xlim)) > 0) xlim <- range(0, mfl$alfa, 1)
-  if (sum(is.na(ylim)) > 0) ylim <- range(0, mfl$f)
-  
   plot(mfl$alfa[,1], mfl$f[,1], type = "o", pch = 21, bg = "white", 
        ylim = ylim, xlim = xlim, 
        xlab = "a", ylab = "f", main = title)
