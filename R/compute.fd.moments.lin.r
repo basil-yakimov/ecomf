@@ -1,6 +1,6 @@
 #' A function to compute moments with a linear transect
 #' @param ab vector of abundances
-#' @param dist distance of functional dissimilarities
+#' @param dist matrix of functional dissimilarities
 #' @param q vector of orders
 #' @param x vector of sample positions
 
