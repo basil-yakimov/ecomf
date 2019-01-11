@@ -100,7 +100,7 @@ compute.fd.moments.lin <- function(ab, dist, q, x = 0)
 
 
 
-compute.qDQ.lin <- function(ab, dist, q, x = 0)
+compute.FqD.lin <- function(ab, dist, q, x = 0)
 {
   ab <- as.matrix(ab)
   n <- dim(ab)[1]  # nr of samples
@@ -113,7 +113,7 @@ compute.qDQ.lin <- function(ab, dist, q, x = 0)
   
   dist <- dist[colnames(ab), colnames(ab)]
   
-  qDQ <- function(x)
+  FqD <- function(x)
   {
     x <- x/sum(x)
     dd <- dist[x > 0, x > 0]
@@ -121,18 +121,18 @@ compute.qDQ.lin <- function(ab, dist, q, x = 0)
     rao <- x %*% dd %*% x
     temp <- x %*% t(x)
     
-    qDQ <- rep(0, length(q))
+    qD <- rep(0, length(q))
     
     if (length(x) == 1) return(qDQ)
     
     for (ii in 1:length(q))
     {
-      qDQ[ii] <- sqrt(( (x^q[ii] %*% dd %*% x^q[ii]) / rao^q[ii] ) ^ (1/(1-q[ii])) / rao)
+      qD[ii] <- sqrt(( (x^q[ii] %*% dd %*% x^q[ii]) / rao^q[ii] ) ^ (1/(1-q[ii])) / rao)
     }
     
-    qDQ[q == 1] <- sqrt(exp(- sum(dd * temp/rao[1] * log(temp/rao[1]))) / rao)
+    qD[q == 1] <- sqrt(exp(- sum(dd * temp/rao[1] * log(temp/rao[1]))) / rao)
     
-    return(qDQ)
+    return(qD)
   }
   
   qD <- matrix(0, nrow = nn, ncol = length(q))
@@ -153,7 +153,7 @@ compute.qDQ.lin <- function(ab, dist, q, x = 0)
       {
         p <- aa/sum(aa)
         
-        qD[counter,] <- qDQ(p)
+        qD[counter,] <- FqD(p)
         a[counter] <- x[jj+ii-1] - x[jj]
         counter <- counter + 1
       }
@@ -163,7 +163,7 @@ compute.qDQ.lin <- function(ab, dist, q, x = 0)
   aa <- colSums(ab)
   p <- aa/sum(aa)
   
-  qD[counter,] <- qDQ(p)
+  qD[counter,] <- FqD(p)
   a[counter] <- x[n] - x[1]
 
   if(regular)
