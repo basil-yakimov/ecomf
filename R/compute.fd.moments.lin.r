@@ -96,3 +96,81 @@ compute.fd.moments.lin <- function(ab, dist, q, x = 0)
   return(list(mom = m[index,], H = H[index], qD = qD[index,], 
               a = abs(a[index]), q = q))
 }
+
+
+
+
+compute.qDQ.lin <- function(ab, dist, q, x = 0)
+{
+  ab <- as.matrix(ab)
+  n <- dim(ab)[1]  # nr of samples
+  nn <- sum(1:n)  # nr of cells
+  regular <- F
+  if (length(x) != n) {
+    x <- 1:n
+    regular <- T
+  }
+  
+  dist <- dist[colnames(ab), colnames(ab)]
+  
+  qDQ <- function(x)
+  {
+    x <- x/sum(x)
+    dd <- dist[x > 0, x > 0]
+    x <- x[x > 0]
+    rao <- x %*% dd %*% x
+    temp <- x %*% t(x)
+    
+    qDQ <- rep(0, length(q))
+    
+    if (length(x) == 1) return(qDQ)
+    
+    for (ii in 1:length(q))
+    {
+      qDQ[ii] <- sqrt(( (x^q[ii] %*% dd %*% x^q[ii]) / rao^q[ii] ) ^ (1/(1-q[ii])) / rao)
+    }
+    
+    qDQ[q == 1] <- sqrt(exp(- sum(dd * temp/rao[1] * log(temp/rao[1]))) / rao)
+    
+    return(qDQ)
+  }
+  
+  qD <- matrix(0, nrow = nn, ncol = length(q))
+  a <- rep(0, nn)
+
+  counter <- 1
+  for (ii in 1:(n-1))
+  {
+    for (jj in 1:(n-ii+1))
+    {
+      aa <- ab[jj:(jj+ii-1), ]
+      
+      if (is.matrix(aa))
+      {
+        aa <- colSums(aa)
+      }
+      if (sum(aa) > 0)
+      {
+        p <- aa/sum(aa)
+        
+        qD[counter,] <- qDQ(p)
+        a[counter] <- x[jj+ii-1] - x[jj]
+        counter <- counter + 1
+      }
+    }
+  }
+  
+  aa <- colSums(ab)
+  p <- aa/sum(aa)
+  
+  qD[counter,] <- qDQ(p)
+  a[counter] <- x[n] - x[1]
+
+  if(regular)
+  {
+    index <- (1:counter)
+    a <- a + 1
+  }  else index <- (1:counter)[a[1:counter] > 0]
+  
+  return(list(qD = qD[index,], a = abs(a[index]), q = q))
+}

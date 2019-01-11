@@ -20,18 +20,18 @@ compute.pd.moments.2d <- function(ab, coords, tree, itNum = 1000, print = T, r =
     {
       tmp.tree <- treedata(tree, x[x > 0], warnings = F)$phy
       branches <- matrix(NA, nrow = nrow(tmp.tree$edge), ncol = 4)
-      branches[,1:2] <- tmp.tree$edge
-      branches[,3] <- tmp.tree$edge.length
+      branches[, 1:2] <- tmp.tree$edge
+      branches[, 3] <- tmp.tree$edge.length
       for (ii in 1:nrow(branches))
       {
-        leaves.node = tips(tmp.tree, branches[ii, 2])
+        leaves.node <- tips(tmp.tree, branches[ii, 2])
         branches[ii, 4] <- sum(x[leaves.node], na.rm = T)
       }
       TT <- max(branching.times(tmp.tree))
       PD.mom <- rep(0, length(q))
       for (ii in 1:length(q))
       {
-        PD.mom[ii] <- sum(branches[,3]*(branches[,4]/TT)^q[ii])
+        PD.mom[ii] <- sum(branches[, 3]*(branches[, 4]/TT)^q[ii])
       }
       
       return(PD.mom)
@@ -49,11 +49,11 @@ compute.pd.moments.2d <- function(ab, coords, tree, itNum = 1000, print = T, r =
     {
       tmp.tree <- treedata(tree, x[x > 0], warnings = F)$phy
       branches <- matrix(NA, nrow = nrow(tmp.tree$edge), ncol = 4)
-      branches[,1:2] <- tmp.tree$edge
-      branches[,3] <- tmp.tree$edge.length
+      branches[, 1:2] <- tmp.tree$edge
+      branches[, 3] <- tmp.tree$edge.length
       for (ii in 1:nrow(branches))
       {
-        leaves.node = tips(tmp.tree, branches[ii, 2])
+        leaves.node <- tips(tmp.tree, branches[ii, 2])
         branches[ii, 4] <- sum(x[leaves.node], na.rm = T)
       }
       TT <- max(branching.times(tmp.tree))
