@@ -46,5 +46,9 @@ PqD <- function(dat, tree, q = 0:2, hill = T)
     nc <- ncol(dat)
   }
   
-  t(apply(dat, 1, PqD.line))
+  out <- t(apply(dat, 1, PqD.line))
+  
+  if (length(q) == 1) out <- as.vector(out)
+  
+  return(out)
 }
