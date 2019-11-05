@@ -5,7 +5,7 @@
 #' @param area vector of areas for clustering levels
 #' @param q vector of orders
 
-compute.moments.tri <- function(ab, dist, clust, area, q)
+compute.fd.moments.tri <- function(ab, dist, clust, area, q)
 {
   # todo: check clust validity
   
