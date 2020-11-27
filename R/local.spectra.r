@@ -32,7 +32,7 @@ local.spectra <- function(inp, sc = 0, w = 1, smooth = 1)
     
     fin <- is.finite(yy)
     
-    spl <- smooth.spline(x = xx[fin], y = yy[fin], w = w, spar = smooth, tol = .0001)
+    spl <- smooth.spline(x = xx[fin], y = yy[fin], w = w[fin], spar = smooth, tol = .0001)
     
     der <- predict(spl, x = sc, deriv = 1)
     

@@ -10,6 +10,11 @@ plot.mom <- function(mom, q = 0, Mq = F, spar = 0.5)
   xx <- log(mom$a)
   yy <- if (Mq) log(mom$mom[, ind]) else log(mom$qD[, ind])
   
+  fin <- is.finite(yy)
+  
+  xx <- xx[fin]
+  yy <- yy[fin]
+  
   lab <- if (Mq) bquote(M[.(q)]) else bquote(''^ ~ .(q) ~ D)
   plot(exp(xx), exp(yy), pch = 19, col = rgb(.7, .9, .7, .5), log = "xy",
        xlab = "L", ylab = lab)
@@ -37,7 +42,7 @@ plot.delta <- function(mf)
   points(mf$q[mf$delta < 0], mf$delta[mf$delta < 0], pch = 19, col = "red")
 }
 
-plot.spectra <- function(mfl, xlim = range(0, mfl$alfa, 1), ylim = range(0, mfl$f), title = "")
+plot.spectra <- function(mfl, xlim = range(0, mfl$alfa, 1, na.rm = T), ylim = range(0, mfl$f, na.rm = T), title = "")
 {
   plot(mfl$alfa[,1], mfl$f[,1], type = "o", pch = 21, bg = "white", 
        ylim = ylim, xlim = xlim, 
