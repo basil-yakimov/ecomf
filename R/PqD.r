@@ -68,7 +68,7 @@ FqD <- function(dat, dist, q = 0:2, hill = T)
     
     qD <- rep(0, length(q))
     
-    if (length(x) == 1) return(qDQ)
+    if (length(x) == 1) return(qD)
     
     for (ii in 1:length(q))
     {
