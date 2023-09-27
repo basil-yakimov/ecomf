@@ -2,7 +2,7 @@
 #' @param ab 3d-array of abundances
 #' @param q vector of orders
 
-computeMoms2 <- function(ab, q)
+compute.moments.lat <- function(ab, q)
 {
     L1 <- dim(ab)[1]
     L2 <- dim(ab)[2]
@@ -11,39 +11,37 @@ computeMoms2 <- function(ab, q)
     p <- rep(0, sp)
     siz <- 1:sizer
     
+    nn <- sum((L1 - siz + 1)*(L2 - siz + 1))  # nr of cells
     
+    m <- qD <- matrix(0, nrow = nn, ncol = length(q))
+    a <- rep(0, nn)
+    H <- rep(0, nn)
+    pmin <- nmin <- rep(0, nn)
     
-    moment <- rep(0,length(q)*sizer)
-    dim(moment) <- c(sizer, length(q))
-    for (aa in sizer:1)
+    counter <- 1
+    for (uu in siz)
     {
-        cur <- L - siz[aa] + 1
-        sqNum <- 0
-        for (ii in 0:(cur-1))
-        {
-            for (jj in 0:(cur-1))
-            {
-                p <- rep(0, sp)
-                sqAb <- 0
-                for (iii in (ii+1) : (ii+siz[aa]) )
-                {
-                    for (jjj in (jj+1) : (jj+siz[aa]) )
-                    {
-                        p <- p + n[iii,jjj,]
-                    }
-                }
-                p <- p[p > 0]/sum(p)
-                for (uu in 1:length(q))
-                {
-                    if (log) moment[aa,uu] <- moment[aa,uu] + log(sum(p^q[uu]))
-                    else moment[aa,uu] <- moment[aa,uu] + sum(p^q[uu])
-                }
-                sqNum <- sqNum + 1
-            }
+      for (ii in 1:(L1 - uu + 1)) {
+        for (jj in 1:(L2 - uu + 1)) {
+          aa <- apply(ab[ii:(ii+uu-1), jj:(jj+uu-1), , drop = F], 3, sum)
+          if (sum(aa) > 0)
+          {
+            p <- aa/sum(aa)
+            
+            m[counter,] <- mom(p,q)
+            a[counter] <- uu
+            H[counter] <- shannon(p)
+            pmin[counter] <- min(p[p > 0])
+            nmin[counter] <- min(aa[aa > 0])
+            counter <- counter + 1
+          }
         }
-        moment[aa,] <- moment[aa,]/sqNum
+      }
     }
-    if (log) moment <- exp(moment)
-    return(list(mom = moment, A = siz^2, q = q))
+    
+    qD <- m ^ (1/(1-matrix(q, nrow = dim(m)[1], ncol = dim(m)[2], byrow = T)))
+    qD[, q == 1] <- exp(H)
+    
+    return(list(mom = m, H = H, qD = qD, 
+                a = abs(a), q = q, pmin = pmin, nmin = nmin))
 }
-
