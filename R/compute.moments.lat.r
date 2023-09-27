@@ -43,5 +43,5 @@ compute.moments.lat <- function(ab, q)
     qD[, q == 1] <- exp(H)
     
     return(list(mom = m, H = H, qD = qD, 
-                a = abs(a), q = q, pmin = pmin, nmin = nmin))
+                a = a^2, q = q, pmin = pmin, nmin = nmin))
 }
